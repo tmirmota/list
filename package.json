@@ -5,6 +5,7 @@
   "dependencies": {
     "firebase": "^4.1.3",
     "immutability-helper": "^2.2.3",
+    "lodash": "^4.17.4",
     "material-ui": "^1.0.0-alpha.21",
     "material-ui-icons": "^1.0.0-alpha.19",
     "react": "^15.6.1",

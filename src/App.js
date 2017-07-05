@@ -1,68 +1,82 @@
 import React, { Component } from 'react'
 import fire from './fire'
+import _ from 'lodash'
 
 // Material UI Components
 import { MuiThemeProvider } from 'material-ui/styles'
 import { TextField, Button } from 'material-ui'
 
+// Components
+import DataTable from './components/Table'
+
+// Firebase Database references
 const database = fire.database().ref()
 const toolsRef = database.child('tools')
 
 class App extends Component {
   state = {
-    newItem: '',
+    tools: [],
+    newTool: '',
   }
 
   componentWillMount() {
     toolsRef.on('value', snap => {
-      this.setState({ tools: snap.val() })
+      const tools = _.values(snap.val())
+      const sortedTools = tools.sort((a, b) => {
+        return b.likes - a.likes
+      })
+      this.setState({ tools })
     })
   }
 
-  incrementButton = () => {
-    const likes = { likes: this.state.likes + 1 }
-  }
   addNewTool = () => {
-    const { newItem } = this.state
+    const { newTool } = this.state
 
     // Don't submit if text field is empty
-    if (!newItem) {
+    if (!newTool) {
       document.getElementById('addnew').focus()
       return false
-    }
-
-    // New Tool Data
-    const toolData = {
-      title: newItem,
-      likes: 0,
     }
 
     // New Tool Key
     const newToolKey = toolsRef.push().key
 
+    // New Tool Data
+    const toolData = {
+      id: newToolKey,
+      title: newTool,
+      likes: 0,
+    }
+
     const updates = {}
-    updates[`/tools/${newItem}${newToolKey}`] = toolData
+    updates[`/tools/${newTool}${newToolKey}`] = toolData
 
     database.update(updates)
   }
-  renderList = () => {
-    return <div />
+
+  handleLike = ({ id, title, likes }) => {
+    const likeRef = fire.database().ref(`tools/${title}${id}`)
+    const updates = { likes: likes + 1 }
+    likeRef.update(updates)
   }
+
   render() {
-    const { likes } = this.state
+    const { tools } = this.state
     return (
       <MuiThemeProvider>
         <div>
           <TextField
             id="addnew"
             label="Add New"
-            value={this.state.newItem}
-            onChange={event => this.setState({ newItem: event.target.value })}
+            value={this.state.newTool}
+            onChange={event => this.setState({ newTool: event.target.value })}
           />
 
           <Button onClick={this.addNewTool}>
             Add New
           </Button>
+
+          <DataTable tools={tools} handleLike={this.handleLike} />
         </div>
       </MuiThemeProvider>
     )
