@@ -4,10 +4,10 @@ import _ from 'lodash'
 
 // Material UI Components
 import { MuiThemeProvider } from 'material-ui/styles'
-import { TextField, Button } from 'material-ui'
 
 // Components
 import DataTable from './components/Table'
+import Form from './components/Form'
 
 // Firebase Database references
 const database = fire.database().ref()
@@ -15,8 +15,7 @@ const toolsRef = database.child('tools')
 
 class App extends Component {
   state = {
-    tools: [],
-    newTool: '',
+    tools: []
   }
 
   componentWillMount() {
@@ -29,9 +28,7 @@ class App extends Component {
     })
   }
 
-  addNewTool = () => {
-    const { newTool } = this.state
-
+  addNewTool = newTool => {
     // Don't submit if text field is empty
     if (!newTool) {
       document.getElementById('addnew').focus()
@@ -45,7 +42,7 @@ class App extends Component {
     const toolData = {
       id: newToolKey,
       title: newTool,
-      likes: 0,
+      likes: 0
     }
 
     const updates = {}
@@ -64,20 +61,10 @@ class App extends Component {
     const { tools } = this.state
     return (
       <MuiThemeProvider>
-        <div>
-          <TextField
-            id="addnew"
-            label="Add New"
-            value={this.state.newTool}
-            onChange={event => this.setState({ newTool: event.target.value })}
-          />
-
-          <Button onClick={this.addNewTool}>
-            Add New
-          </Button>
-
+        <section className="container">
+          <Form addNewTool={this.addNewTool} />
           <DataTable tools={tools} handleLike={this.handleLike} />
-        </div>
+        </section>
       </MuiThemeProvider>
     )
   }
