@@ -19,7 +19,7 @@ class DataTable extends Component {
       <Paper className="p-5">
         {tools.map(tool => {
           return (
-            <section key={tool.id}>
+            <section key={tool.key}>
               <Grid container gutter={24} className="py-3">
                 <Grid item xs={6}>
                   <p className="lead">
