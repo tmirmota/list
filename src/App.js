@@ -9,6 +9,7 @@ import Button from 'material-ui/Button'
 // Components
 import DataTable from './components/Table'
 import Form from './components/Form'
+import UserChip from './components/UserChip'
 
 // Firebase configuration
 const config = {
@@ -32,6 +33,14 @@ class App extends Component {
   }
 
   componentWillMount() {
+    // Listen for logged in user
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        this.setState({ user })
+      }
+    })
+
+    // Sort existing tools to app and subscribe
     database.child('tools').on('value', snap => {
       const tools = _.values(snap.val())
       const sortedTools = tools.sort((a, b) => {
@@ -65,6 +74,19 @@ class App extends Component {
     likeRef.update(updates)
   }
 
+  render() {
+    const { tools, user } = this.state
+    return (
+      <MuiThemeProvider>
+        <section className="container">
+          <UserChip user={user} toggleSignIn={this.toggleSignIn} />
+          <Form addNewTool={this.addNewTool} />
+          <DataTable tools={tools} handleLike={this.handleLike} />
+        </section>
+      </MuiThemeProvider>
+    )
+  }
+
   toggleSignIn = () => {
     if (!firebase.auth().currentUser) {
       // [START createprovider]
@@ -77,22 +99,22 @@ class App extends Component {
       firebase
         .auth()
         .signInWithPopup(provider)
-        .then(function(result) {
-          // This gives you a Facebook Access Token. You can use it to access the Facebook API.
-          var token = result.credential.accessToken
-          // The signed-in user info.
-          var user = result.user
-          // [START_EXCLUDE]
-          // [END_EXCLUDE]
+        .then(result => {
+          // This gives you a Facebook Access Token. You can use it to access the Facebook API
+          const token = result.credential.accessToken
+          // The signed-in user info
+          const user = result.user
+          // Set User info to state
+          this.setState({ user })
         })
-        .catch(function(error) {
-          // Handle Errors here.
-          var errorCode = error.code
-          var errorMessage = error.message
-          // The email of the user's account used.
-          var email = error.email
-          // The firebase.auth.AuthCredential type that was used.
-          var credential = error.credential
+        .catch(error => {
+          // Handle Errors here
+          const errorCode = error.code
+          const errorMessage = error.message
+          // The email of the user's account used
+          const email = error.email
+          // The firebase.auth.AuthCredential type that was used
+          const credential = error.credential
           // [START_EXCLUDE]
           if (errorCode === 'auth/account-exists-with-different-credential') {
             alert(
@@ -108,53 +130,12 @@ class App extends Component {
       // [END signin]
     } else {
       // [START signout]
+      // Signout from Firebase
       firebase.auth().signOut()
+      // Signout user from state
+      this.setState({ user: null })
       // [END signout]
     }
-    // [START_EXCLUDE]
-    // [END_EXCLUDE]
-  }
-  // [END buttoncallback]
-
-  handleLogin = () => {
-    const provider = new firebase.auth.FacebookAuthProvider()
-
-    firebase
-      .auth()
-      .signInWithPopup(provider)
-      .then(result => {
-        // This gives you a Facebook Access Token. You can use it to access the Facebook API.
-        const token = result.credential.accessToken
-        // The signed-in user info.
-        const user = result.user
-        console.log('User is logged in')
-
-        this.setState({ user })
-      })
-      .catch(error => {
-        // Handle Errors here.
-        const errorCode = error.code
-        const errorMessage = error.message
-        console.log(error)
-        // The email of the user's account used.
-        const email = error.email
-        // The firebase.auth.AuthCredential type that was used.
-        const credential = error.credential
-        // ...
-      })
-  }
-
-  render() {
-    const { tools } = this.state
-    return (
-      <MuiThemeProvider>
-        <section className="container">
-          <Button onClick={this.toggleSignIn}>Login</Button>
-          <Form addNewTool={this.addNewTool} />
-          <DataTable tools={tools} handleLike={this.handleLike} />
-        </section>
-      </MuiThemeProvider>
-    )
   }
 }
 
