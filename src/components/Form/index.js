@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import update from 'immutability-helper'
 
 // Material UI
 import Grid from 'material-ui/Grid'
@@ -8,24 +9,40 @@ import Button from 'material-ui/Button'
 
 class Form extends Component {
   state = {
-    newTool: ''
+    newTool: {
+      name: '',
+      url: ''
+    }
   }
+  handleInputChange = event => {
+    const { newTool } = this.state
+    const { name, value } = event.target
+    const newData = update(newTool, { [name]: { $set: value } })
+    this.setState({ newTool: newData })
+  }
+
   render() {
     const { addNewTool } = this.props
     const { newTool } = this.state
     return (
-      <Grid align="center" xs={12}>
-        <div className="text-center">
+      <Grid container align="center">
+        <Grid item xs={12} className="text-center">
           <FormControl>
             <TextField
-              id="addnew"
-              label="Add New"
-              value={newTool}
-              onChange={event => this.setState({ newTool: event.target.value })}
+              label="Name"
+              name="name"
+              value={newTool.name}
+              onChange={this.handleInputChange}
+            />
+            <TextField
+              label="URL"
+              name="url"
+              value={newTool.url}
+              onChange={this.handleInputChange}
             />
             <Button onClick={() => addNewTool(newTool)}>Add New</Button>
           </FormControl>
-        </div>
+        </Grid>
       </Grid>
     )
   }
