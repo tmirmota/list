@@ -38,7 +38,7 @@ class DataTable extends Component {
             <section key={tool.key}>
               <Grid container gutter={24} className="py-3">
                 <Grid item xs={6}>
-                  <a href={tool.url} className="lead">
+                  <a href={tool.url} className="lead" target="_blank">
                     {tool.title}
                   </a>
                 </Grid>

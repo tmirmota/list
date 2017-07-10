@@ -6,6 +6,11 @@ import { withStyles, createStyleSheet } from 'material-ui/styles'
 import AppBar from 'material-ui/AppBar'
 import Toolbar from 'material-ui/Toolbar'
 import Typography from 'material-ui/Typography'
+import IconButton from 'material-ui/IconButton'
+import Button from 'material-ui/Button'
+
+// Material UI Icons
+import Add from 'material-ui-icons/Add'
 
 // Components
 import UserChip from '../UserChip'
@@ -27,6 +32,10 @@ class Nav extends Component {
   render() {
     // Destructure Props
     const { user, toggleSignIn, classes } = this.props
+
+    // Check if user is signed-in
+    const isSignedIn = user !== null
+
     return (
       <div className={classes.root}>
         <AppBar>
@@ -34,7 +43,22 @@ class Nav extends Component {
             <Typography type="title" color="inherit" className={classes.flex}>
               Tool Belt
             </Typography>
-            <UserChip user={user} toggleSignIn={toggleSignIn} />
+
+            {/* Return login button if user is not signed-in */}
+            {!isSignedIn &&
+              <Button color="contrast" onClick={toggleSignIn}>
+                Login
+              </Button>}
+
+            {isSignedIn &&
+              <IconButton
+                className={classes.button}
+                color="inherit"
+                aria-label="add"
+              >
+                <Add />
+              </IconButton>}
+            {isSignedIn && <UserChip user={user} toggleSignIn={toggleSignIn} />}
           </Toolbar>
         </AppBar>
       </div>
