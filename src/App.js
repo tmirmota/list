@@ -4,7 +4,6 @@ import _ from 'lodash'
 
 // Material UI Components
 import { MuiThemeProvider } from 'material-ui/styles'
-import Button from 'material-ui/Button'
 
 // Components
 import DataTable from './components/Table'
@@ -24,11 +23,12 @@ const config = {
 firebase.initializeApp(config)
 
 // Firebase database reference
-const database = firebase.database().ref()
+const dbRef = firebase.database().ref()
 
 class App extends Component {
   state = {
     user: null,
+    likedTools: [],
     tools: []
   }
 
@@ -36,23 +36,30 @@ class App extends Component {
     // Listen for logged in user
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
+        dbRef.child(`accounts/${user.uid}/tools`).on('value', snap => {
+          const likedTools = snap.toJSON()
+          this.setState({ likedTools })
+        })
         this.setState({ user })
       }
     })
 
     // Sort existing tools to app and subscribe
-    database.child('tools').on('value', snap => {
+    dbRef.child('tools').on('value', snap => {
+      // Create array of tools
       const tools = _.values(snap.val())
-      const sortedTools = tools.sort((a, b) => {
-        return b.likes - a.likes
-      })
+
+      // Sorted tools in descending order by likes
+      const sortedTools = tools.sort((a, b) => b.likes - a.likes)
+
+      // Set sorted array of tools to state
       this.setState({ tools: sortedTools })
     })
   }
 
   addNewTool = newTool => {
     // New Tool Key
-    const newToolKey = database.child('tools').push().key
+    const newToolKey = dbRef.child('tools').push().key
 
     // New Tool Data
     const toolData = {
@@ -65,23 +72,52 @@ class App extends Component {
     const updates = {}
     updates[`/tools/${newToolKey}`] = toolData
 
-    database.update(updates)
+    dbRef.update(updates)
   }
 
   handleLike = ({ key, likes }) => {
-    const likeRef = firebase.database().ref(`tools/${key}`)
-    const updates = { likes: likes + 1 }
-    likeRef.update(updates)
+    // Collect the current user
+    const { user } = this.state
+
+    // User's tool reference
+    const userToolRef = firebase
+      .database()
+      .ref(`accounts/${user.uid}/tools/${key}`)
+
+    userToolRef.once('value', snap => {
+      // User like status
+      const userLikeRef = snap.val().like
+
+      // Toggle user like status
+      userToolRef.update({ like: !userLikeRef })
+
+      // Increment or decrement like count
+      const changeLikes = userLikeRef ? -1 : +1
+
+      // New like count for tool
+      const newLikesCount = likes + changeLikes
+
+      // Tool like count ref
+      const toolLikeRef = firebase.database().ref(`tools/${key}`)
+
+      // Update like count
+      toolLikeRef.update({ likes: newLikesCount })
+    })
   }
 
   render() {
-    const { tools, user } = this.state
+    const { tools, user, likedTools } = this.state
     return (
       <MuiThemeProvider>
         <section className="container">
           <UserChip user={user} toggleSignIn={this.toggleSignIn} />
           <Form addNewTool={this.addNewTool} />
-          <DataTable tools={tools} handleLike={this.handleLike} />
+          <DataTable
+            user={user}
+            tools={tools}
+            likedTools={likedTools}
+            handleLike={this.handleLike}
+          />
         </section>
       </MuiThemeProvider>
     )
@@ -106,6 +142,15 @@ class App extends Component {
           const user = result.user
           // Set User info to state
           this.setState({ user })
+
+          // Create user in database
+          const userAccount = dbRef.child('accounts').child(user.uid)
+          // Update user information in database
+          userAccount.update({
+            displayName: user.displayName,
+            email: user.email,
+            uid: user.uid
+          })
         })
         .catch(error => {
           // Handle Errors here

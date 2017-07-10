@@ -11,13 +11,15 @@ import KeyboardArrowUp from 'material-ui-icons/KeyboardArrowUp'
 
 class DataTable extends Component {
   render() {
-    const { tools, handleLike } = this.props
+    const { tools, user, likedTools, handleLike } = this.props
     if (tools === []) {
       return false
     }
     return (
       <Paper className="p-5">
         {tools.map(tool => {
+          const userLikes = likedTools[tool.key]
+          const userUpvoted = userLikes ? userLikes.like : false
           return (
             <section key={tool.key}>
               <Grid container gutter={24} className="py-3">
@@ -27,7 +29,12 @@ class DataTable extends Component {
                   </p>
                 </Grid>
                 <Grid item xs={6} className="text-right">
-                  <Button raised dense onClick={() => handleLike(tool)}>
+                  <Button
+                    raised
+                    dense
+                    color={userUpvoted ? 'accent' : 'default'}
+                    onClick={() => handleLike(tool)}
+                  >
                     <KeyboardArrowUp />
                     {tool.likes}
                   </Button>
