@@ -8,7 +8,7 @@ import Menu, { MenuItem } from 'material-ui/Menu'
 
 class UserChip extends Component {
   state = {
-    open: false
+    open: false,
   }
 
   handleRequestLogout = () => {
@@ -20,13 +20,16 @@ class UserChip extends Component {
     const { user, toggleSignIn } = this.props
     const { open } = this.state
     if (user === null) {
-      return <Button onClick={toggleSignIn}>Login</Button>
+      return (
+        <Button color="contrast" onClick={toggleSignIn}>
+          Login
+        </Button>
+      )
     }
     return (
       <div>
-        <Chip
-          avatar={<Avatar src={user.photoURL} />}
-          label={user.displayName}
+        <Avatar
+          src={user.photoURL}
           onClick={() => this.setState({ open: true })}
         />
         <Menu open={open} onRequestClose={() => this.setState({ open: false })}>

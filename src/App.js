@@ -6,9 +6,8 @@ import _ from 'lodash'
 import { MuiThemeProvider } from 'material-ui/styles'
 
 // Components
+import Nav from './components/Nav'
 import DataTable from './components/Table'
-import Form from './components/Form'
-import UserChip from './components/UserChip'
 
 // Firebase configuration
 const config = {
@@ -110,10 +109,9 @@ class App extends Component {
     return (
       <MuiThemeProvider>
         <section className="container">
-          <UserChip user={user} toggleSignIn={this.toggleSignIn} />
-          <Form addNewTool={this.addNewTool} />
+          <Nav user={user} toggleSignIn={this.toggleSignIn} />
+          {/* <Form addNewTool={this.addNewTool} /> */}
           <DataTable
-            user={user}
             tools={tools}
             likedTools={likedTools}
             handleLike={this.handleLike}
@@ -138,6 +136,7 @@ class App extends Component {
         .then(result => {
           // This gives you a Facebook Access Token. You can use it to access the Facebook API
           const token = result.credential.accessToken
+          console.log(`User logged in: ${token}`)
           // The signed-in user info
           const user = result.user
           // Set User info to state
@@ -155,11 +154,15 @@ class App extends Component {
         .catch(error => {
           // Handle Errors here
           const errorCode = error.code
+          console.log(errorCode)
           const errorMessage = error.message
+          console.log(errorMessage)
           // The email of the user's account used
           const email = error.email
+          console.log(email)
           // The firebase.auth.AuthCredential type that was used
           const credential = error.credential
+          console.log(credential)
           // [START_EXCLUDE]
           if (errorCode === 'auth/account-exists-with-different-credential') {
             alert(
