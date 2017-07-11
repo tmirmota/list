@@ -9,7 +9,8 @@
     "material-ui": "^1.0.0-alpha.21",
     "material-ui-icons": "^1.0.0-alpha.19",
     "react": "^15.6.1",
-    "react-dom": "^15.6.1"
+    "react-dom": "^15.6.1",
+    "typeface-roboto": "0.0.31"
   },
   "devDependencies": {
     "react-scripts": "1.0.10"

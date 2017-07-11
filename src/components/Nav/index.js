@@ -11,6 +11,7 @@ import Button from 'material-ui/Button'
 
 // Material UI Icons
 import Add from 'material-ui-icons/Add'
+import Build from 'material-ui-icons/Build'
 
 // Components
 import UserChip from '../UserChip'
@@ -22,6 +23,7 @@ const styleSheet = createStyleSheet('Nav', theme => ({
   },
   flex: {
     flex: 1,
+    paddingLeft: 5,
   },
   button: {
     margin: theme.spacing.unit,
@@ -40,16 +42,15 @@ class Nav extends Component {
       <div className={classes.root}>
         <AppBar>
           <Toolbar>
+            <Build />
             <Typography type="title" color="inherit" className={classes.flex}>
               Tool Belt
             </Typography>
-
             {/* Return login button if user is not signed-in */}
             {!isSignedIn &&
               <Button color="contrast" onClick={toggleSignIn}>
                 Login
               </Button>}
-
             {isSignedIn &&
               <IconButton
                 className={classes.button}
