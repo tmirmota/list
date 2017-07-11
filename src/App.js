@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import * as firebase from 'firebase'
 import _ from 'lodash'
 
 // Material UI Components
-import { MuiThemeProvider } from 'material-ui/styles'
+import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles'
+import createPalette from 'material-ui/styles/palette'
+import blue from 'material-ui/colors/blue'
 
 // Components
 import Nav from './components/Nav'
@@ -16,7 +19,7 @@ const config = {
   databaseURL: 'https://list-b0f48.firebaseio.com',
   projectId: 'list-b0f48',
   storageBucket: 'list-b0f48.appspot.com',
-  messagingSenderId: '306743013539'
+  messagingSenderId: '306743013539',
 }
 // Initialize Firebase App
 firebase.initializeApp(config)
@@ -24,11 +27,18 @@ firebase.initializeApp(config)
 // Firebase database reference
 const dbRef = firebase.database().ref()
 
+// Customize Theme
+const theme = createMuiTheme({
+  palette: createPalette({
+    primary: blue,
+  }),
+})
+
 class App extends Component {
   state = {
     user: null,
     likedTools: [],
-    tools: []
+    tools: [],
   }
 
   componentWillMount() {
@@ -65,7 +75,7 @@ class App extends Component {
       key: newToolKey,
       title: newTool.title,
       url: newTool.url,
-      likes: 0
+      likes: 0,
     }
 
     const updates = {}
@@ -107,7 +117,7 @@ class App extends Component {
   render() {
     const { tools, user, likedTools } = this.state
     return (
-      <MuiThemeProvider>
+      <MuiThemeProvider theme={theme}>
         <section className="container">
           <Nav user={user} toggleSignIn={this.toggleSignIn} />
           {/* <Form addNewTool={this.addNewTool} /> */}
@@ -148,7 +158,7 @@ class App extends Component {
           userAccount.update({
             displayName: user.displayName,
             email: user.email,
-            uid: user.uid
+            uid: user.uid,
           })
         })
         .catch(error => {
@@ -166,7 +176,7 @@ class App extends Component {
           // [START_EXCLUDE]
           if (errorCode === 'auth/account-exists-with-different-credential') {
             alert(
-              'You have already signed up with a different auth provider for that email.'
+              'You have already signed up with a different auth provider for that email.',
             )
             // If you are using multiple auth providers on your app you should handle linking
             // the user's accounts here.
