@@ -10,10 +10,7 @@ import Table, {
   TableHead,
   TableRow,
 } from 'material-ui/Table'
-import Grid from 'material-ui/Grid'
-import Paper from 'material-ui/Paper'
 import Button from 'material-ui/Button'
-import Divider from 'material-ui/Divider'
 
 // Material UI Icons
 import KeyboardArrowUp from 'material-ui-icons/KeyboardArrowUp'
@@ -24,6 +21,9 @@ const styleSheet = createStyleSheet('DataTable', theme => ({
   },
   button: {
     margin: theme.spacing.unit,
+  },
+  votes: {
+    textAlign: 'center',
   },
 }))
 
@@ -40,16 +40,16 @@ class DataTable extends Component {
     // Render table once tools have returned
     return (
       <div>
-        <Typography type="display1" color="inherit">
+        <Typography type="display2" color="inherit" align="center" gutterBottom>
           Top Tools for Digital Marketers
         </Typography>
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Rank</TableCell>
+              <TableCell compact>Rank</TableCell>
               <TableCell>Name</TableCell>
               <TableCell>Description</TableCell>
-              <TableCell>Votes</TableCell>
+              <TableCell className={classes.votes}>Votes</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -62,8 +62,8 @@ class DataTable extends Component {
               const toolRank = index + 1
 
               return (
-                <TableRow>
-                  <TableCell>
+                <TableRow hover key={index}>
+                  <TableCell compact>
                     {toolRank}
                   </TableCell>
                   <TableCell>
@@ -72,9 +72,11 @@ class DataTable extends Component {
                     </a>
                   </TableCell>
                   <TableCell>
-                    <Typography type="caption">This is a caption</Typography>
+                    <Typography type="body1" color="inherit">
+                      This is a caption
+                    </Typography>
                   </TableCell>
-                  <TableCell>
+                  <TableCell className={classes.votes}>
                     <Button
                       fab
                       color={userUpvoted ? 'accent' : 'default'}

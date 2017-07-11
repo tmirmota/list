@@ -3,13 +3,9 @@ import PropTypes from 'prop-types'
 
 // Material UI
 import { withStyles, createStyleSheet } from 'material-ui/styles'
-import Button from 'material-ui/Button'
 import Avatar from 'material-ui/Avatar'
 import Menu, { MenuItem } from 'material-ui/Menu'
 import IconButton from 'material-ui/IconButton'
-
-// Material UI Icons
-import Add from 'material-ui-icons/Add'
 
 const styleSheet = createStyleSheet('UserChip', theme => ({
   button: {
@@ -34,7 +30,7 @@ class UserChip extends Component {
 
   render() {
     // Destructure Props
-    const { user, toggleSignIn, classes } = this.props
+    const { user, classes } = this.props
     // Destructure State
     const { open, anchorEl } = this.state
 
