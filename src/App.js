@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import * as firebase from 'firebase'
 import _ from 'lodash'
+import './App.css'
 
 // Material UI Components
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles'
@@ -11,6 +12,7 @@ import blue from 'material-ui/colors/blue'
 // Components
 import Nav from './components/Nav'
 import DataTable from './components/Table'
+import Footer from './components/Footer'
 
 // Firebase configuration
 const config = {
@@ -126,6 +128,7 @@ class App extends Component {
             likedTools={likedTools}
             handleLike={this.handleLike}
           />
+          <Footer />
         </section>
       </MuiThemeProvider>
     )
