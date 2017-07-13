@@ -12,8 +12,14 @@ import FavoriteIcon from 'material-ui-icons/Favorite'
 
 const styles = {
   footer: {
+    background: '#6ec6ff',
+    padding: '20px',
+    width: '100%',
     position: 'absolute',
     bottom: 0,
+  },
+  heading: {
+    color: '#000',
   },
 }
 
@@ -21,8 +27,7 @@ const styleSheet = createStyleSheet({
   root: {
     flexGrow: 1,
     marginTop: 30,
-    position: 'absolute',
-    bottom: 0,
+    padding: 0,
   },
 })
 
@@ -31,11 +36,7 @@ class Footer extends Component {
     const { classes } = this.props
     return (
       <footer style={styles.footer}>
-        <Grid container className={classes.root}>
-          <Grid item xs={12}>
-            This is the footer
-          </Grid>
-        </Grid>
+        <div style={styles.heading}>This is the footer</div>
       </footer>
     )
   }

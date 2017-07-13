@@ -120,16 +120,18 @@ class App extends Component {
     const { tools, user, likedTools } = this.state
     return (
       <MuiThemeProvider theme={theme}>
-        <section className="container app-section">
+        <div>
           <Nav user={user} toggleSignIn={this.toggleSignIn} />
-          {/* <Form addNewTool={this.addNewTool} /> */}
-          <DataTable
-            tools={tools}
-            likedTools={likedTools}
-            handleLike={this.handleLike}
-          />
+          <section className="container app-section">
+            {/* <Form addNewTool={this.addNewTool} /> */}
+            <DataTable
+              tools={tools}
+              likedTools={likedTools}
+              handleLike={this.handleLike}
+            />
+          </section>
           <Footer />
-        </section>
+        </div>
       </MuiThemeProvider>
     )
   }
