@@ -10,10 +10,19 @@ import BottomNavigation, {
 
 import FavoriteIcon from 'material-ui-icons/Favorite'
 
-const stylesheet = createStyleSheet({
+const styles = {
+  footer: {
+    position: 'absolute',
+    bottom: 0,
+  },
+}
+
+const styleSheet = createStyleSheet({
   root: {
     flexGrow: 1,
     marginTop: 30,
+    position: 'absolute',
+    bottom: 0,
   },
 })
 
@@ -21,13 +30,13 @@ class Footer extends Component {
   render() {
     const { classes } = this.props
     return (
-      <Grid container className={classes.root}>
-        <Grid item xs={12}>
-          <BottomNavigation showlabels>
-            <BottomNavigationButton label="Favorite" icon={<FavoriteIcon />} />
-          </BottomNavigation>
+      <footer style={styles.footer}>
+        <Grid container className={classes.root}>
+          <Grid item xs={12}>
+            This is the footer
+          </Grid>
         </Grid>
-      </Grid>
+      </footer>
     )
   }
 }
@@ -36,4 +45,4 @@ Footer.propTypes = {
   classes: PropTypes.object.isRequired,
 }
 
-export default withStyles(stylesheet)(Footer)
+export default withStyles(styleSheet)(Footer)
