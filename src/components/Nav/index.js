@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 
 // Material UI
 import { withStyles, createStyleSheet } from 'material-ui/styles'
@@ -52,13 +53,15 @@ class Nav extends Component {
                 Login
               </Button>}
             {isSignedIn &&
-              <IconButton
-                className={classes.button}
-                color="inherit"
-                aria-label="add"
-              >
-                <Add />
-              </IconButton>}
+              <Link to="/new">
+                <IconButton
+                  className={classes.button}
+                  color="inherit"
+                  aria-label="add"
+                >
+                  <Add />
+                </IconButton>
+              </Link>}
             {isSignedIn && <UserChip user={user} toggleSignIn={toggleSignIn} />}
           </Toolbar>
         </AppBar>
