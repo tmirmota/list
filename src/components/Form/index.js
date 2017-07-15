@@ -2,16 +2,18 @@ import React, { Component } from 'react'
 import update from 'immutability-helper'
 
 // Material UI
+import Paper from 'material-ui/Paper'
 import Grid from 'material-ui/Grid'
 import TextField from 'material-ui/TextField'
 import Button from 'material-ui/Button'
+import Slide from 'material-ui/transitions/Slide'
 
-class Form extends Component {
+export default class Form extends Component {
   state = {
     newTool: {
       title: '',
-      url: ''
-    }
+      url: '',
+    },
   }
 
   handleSubmit = () => {
@@ -35,25 +37,29 @@ class Form extends Component {
     const { newTool } = this.state
 
     return (
-      <Grid container align="center">
-        <Grid item xs={12} className="text-center">
-          <TextField
-            label="Name"
-            name="title"
-            value={newTool.title}
-            onChange={this.handleInputChange}
-          />
-          <TextField
-            label="URL"
-            name="url"
-            value={newTool.url}
-            onChange={this.handleInputChange}
-          />
-          <Button onClick={this.handleSubmit}>Add New</Button>
-        </Grid>
-      </Grid>
+      <Slide direction="down" in={true}>
+        <Paper>
+          <Grid container align="center">
+            <Grid item xs={12} className="text-center">
+              <TextField
+                label="Name"
+                name="title"
+                value={newTool.title}
+                onChange={this.handleInputChange}
+              />
+              <br />
+              <TextField
+                label="URL"
+                name="url"
+                value={newTool.url}
+                onChange={this.handleInputChange}
+              />
+              <br />
+              <Button onClick={this.handleSubmit}>Add New</Button>
+            </Grid>
+          </Grid>
+        </Paper>
+      </Slide>
     )
   }
 }
-
-export default Form
