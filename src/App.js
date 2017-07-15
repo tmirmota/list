@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 import * as firebase from 'firebase'
 import _ from 'lodash'
 import './App.css'
@@ -12,6 +13,7 @@ import blue from 'material-ui/colors/blue'
 // Components
 import Nav from './components/Nav'
 import DataTable from './components/Table'
+import Form from './components/Form'
 import Footer from './components/Footer'
 
 // Firebase configuration
@@ -119,20 +121,31 @@ class App extends Component {
   render() {
     const { tools, user, likedTools } = this.state
     return (
-      <MuiThemeProvider theme={theme}>
-        <div>
-          <Nav user={user} toggleSignIn={this.toggleSignIn} />
-          <section className="container app-section">
-            {/* <Form addNewTool={this.addNewTool} /> */}
-            <DataTable
-              tools={tools}
-              likedTools={likedTools}
-              handleLike={this.handleLike}
-            />
-          </section>
-          <Footer />
-        </div>
-      </MuiThemeProvider>
+      <Router>
+        <MuiThemeProvider theme={theme}>
+          <div>
+            <Nav user={user} toggleSignIn={this.toggleSignIn} />
+            <section className="container app-section">
+              <Route
+                exact
+                path="/"
+                component={() =>
+                  <DataTable
+                    tools={tools}
+                    likedTools={likedTools}
+                    handleLike={this.handleLike}
+                  />}
+              />
+
+              <Route
+                path="/new"
+                component={() => <Form addNewTool={this.addNewTool} />}
+              />
+            </section>
+            <Footer />
+          </div>
+        </MuiThemeProvider>
+      </Router>
     )
   }
 
