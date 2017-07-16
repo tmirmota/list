@@ -12,6 +12,7 @@ import Button from 'material-ui/Button'
 
 // Material UI Icons
 import Add from 'material-ui-icons/Add'
+import Clear from 'material-ui-icons/Clear'
 import Build from 'material-ui-icons/Build'
 
 // Components
@@ -39,6 +40,10 @@ class Nav extends Component {
     // Check if user is signed-in
     const isSignedIn = user !== null
 
+    // Check if on new page
+    const isNew = window.location.pathname === '/new'
+    console.log(isNew)
+
     return (
       <div className={classes.root}>
         <AppBar>
@@ -53,13 +58,13 @@ class Nav extends Component {
                 Login
               </Button>}
             {isSignedIn &&
-              <Link to="/new">
+              <Link to={isNew ? '/' : '/new'} className="text-white">
                 <IconButton
                   className={classes.button}
                   color="inherit"
                   aria-label="add"
                 >
-                  <Add />
+                  {isNew ? <Clear /> : <Add />}
                 </IconButton>
               </Link>}
             {isSignedIn && <UserChip user={user} toggleSignIn={toggleSignIn} />}
