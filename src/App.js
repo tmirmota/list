@@ -15,6 +15,7 @@ import Nav from './components/Nav'
 import DataTable from './components/Table'
 import Form from './components/Form'
 import Footer from './components/Footer'
+import FloatingCreateButton from './components/FloatingCreateButton'
 
 // Firebase configuration
 const config = {
@@ -25,6 +26,7 @@ const config = {
   storageBucket: 'list-b0f48.appspot.com',
   messagingSenderId: '306743013539',
 }
+
 // Initialize Firebase App
 firebase.initializeApp(config)
 
@@ -32,7 +34,7 @@ firebase.initializeApp(config)
 const dbRef = firebase.database().ref()
 
 // Customize Theme
-const theme = createMuiTheme({
+const theme = createMuiTheme('App', theme => {
   palette: createPalette({
     primary: blue,
   }),
@@ -141,6 +143,7 @@ export default class App extends Component {
                 path="/new"
                 component={() => <Form addNewTool={this.addNewTool} />}
               />
+              <FloatingCreateButton />
             </section>
             <Footer />
           </div>

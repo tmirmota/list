@@ -55,7 +55,8 @@ export default class Form extends Component {
                 onChange={this.handleInputChange}
               />
               <br />
-              <Button onClick={this.handleSubmit}>Add New</Button>
+              <Button onClick={this.handleSubmit}>Cancel</Button>
+              <Button onClick={this.handleSubmit}>Create</Button>
             </Grid>
           </Grid>
         </Paper>
