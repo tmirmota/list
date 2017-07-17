@@ -34,7 +34,7 @@ firebase.initializeApp(config)
 const dbRef = firebase.database().ref()
 
 // Customize Theme
-const theme = createMuiTheme('App', theme => {
+const theme = createMuiTheme({
   palette: createPalette({
     primary: blue,
   }),
@@ -127,6 +127,7 @@ export default class App extends Component {
         <MuiThemeProvider theme={theme}>
           <div>
             <Nav user={user} toggleSignIn={this.toggleSignIn} />
+
             <section className="container app-section">
               <Route
                 exact
@@ -143,8 +144,10 @@ export default class App extends Component {
                 path="/new"
                 component={() => <Form addNewTool={this.addNewTool} />}
               />
-              <FloatingCreateButton />
             </section>
+
+            <FloatingCreateButton />
+
             <Footer />
           </div>
         </MuiThemeProvider>
