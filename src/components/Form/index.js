@@ -21,10 +21,14 @@ class Form extends Component {
   }
 
   handleSubmit = () => {
-    const { addNewTool } = this.props
+    // Destructure Props
+    const { addNewTool, onRequestClose } = this.props
+
+    // Destructure State
     const { newTool } = this.state
 
     addNewTool(newTool)
+    onRequestClose()
   }
 
   handleInputChange = event => {
@@ -37,6 +41,18 @@ class Form extends Component {
     this.setState({ newTool: newData })
   }
 
+  handleCancel = () => {
+    // Close Dialog
+    this.props.onRequestClose()
+
+    // Reset form
+    const resetTool = {
+      title: '',
+      url: '',
+    }
+    this.setState({ newTool: resetTool })
+  }
+
   render() {
     // Destructure Props
     const { onRequestClose, ...other } = this.props
@@ -45,8 +61,8 @@ class Form extends Component {
     const { newTool } = this.state
 
     return (
-      <Dialog {...other}>
-        <DialogTitle>This is a title</DialogTitle>
+      <Dialog ignoreBackDropClick {...other}>
+        <DialogTitle>Add a new tool</DialogTitle>
         <TextField
           label="Name"
           name="title"
@@ -61,8 +77,10 @@ class Form extends Component {
           onChange={this.handleInputChange}
         />
         <DialogActions>
-          <Button onClick={onRequestClose}>Cancel</Button>
-          <Button onClick={this.handleSubmit}>Create</Button>
+          <Button onClick={this.handleCancel}>Cancel</Button>
+          <Button onClick={this.handleSubmit} color="primary">
+            Add
+          </Button>
         </DialogActions>
       </Dialog>
     )
