@@ -1,14 +1,18 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import update from 'immutability-helper'
 
 // Material UI
+import { withStyles, createStyleSheet } from 'material-ui/styles'
+import Dialog, { DialogTitle, DialogActions } from 'material-ui/Dialog'
 import Paper from 'material-ui/Paper'
-import Grid from 'material-ui/Grid'
 import TextField from 'material-ui/TextField'
 import Button from 'material-ui/Button'
 import Slide from 'material-ui/transitions/Slide'
 
-export default class Form extends Component {
+const styleSheet = createStyleSheet('Form', theme => ({}))
+
+class Form extends Component {
   state = {
     newTool: {
       title: '',
@@ -34,33 +38,39 @@ export default class Form extends Component {
   }
 
   render() {
+    // Destructure Props
+    const { onRequestClose, ...other } = this.props
+
+    // Destructure State
     const { newTool } = this.state
 
     return (
-      <Slide direction="down" in={true}>
-        <Paper>
-          <Grid container align="center">
-            <Grid item xs={12} className="text-center">
-              <TextField
-                label="Name"
-                name="title"
-                value={newTool.title}
-                onChange={this.handleInputChange}
-              />
-              <br />
-              <TextField
-                label="URL"
-                name="url"
-                value={newTool.url}
-                onChange={this.handleInputChange}
-              />
-              <br />
-              <Button onClick={this.handleSubmit}>Cancel</Button>
-              <Button onClick={this.handleSubmit}>Create</Button>
-            </Grid>
-          </Grid>
-        </Paper>
-      </Slide>
+      <Dialog {...other}>
+        <DialogTitle>This is a title</DialogTitle>
+        <TextField
+          label="Name"
+          name="title"
+          value={newTool.title}
+          onChange={this.handleInputChange}
+        />
+        <br />
+        <TextField
+          label="URL"
+          name="url"
+          value={newTool.url}
+          onChange={this.handleInputChange}
+        />
+        <DialogActions>
+          <Button onClick={onRequestClose}>Cancel</Button>
+          <Button onClick={this.handleSubmit}>Create</Button>
+        </DialogActions>
+      </Dialog>
     )
   }
 }
+
+Form.propTypes = {
+  classes: PropTypes.object.isRequired,
+}
+
+export default withStyles(styleSheet)(Form)

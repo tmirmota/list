@@ -20,10 +20,15 @@ const styleSheet = createStyleSheet('FloatingCreateButton', theme => ({
 
 class FloatingCreateButton extends Component {
   render() {
-    const { classes } = this.props
+    const { classes, onRequestOpen } = this.props
     return (
       <div>
-        <Button fab className={classes.button} color="primary">
+        <Button
+          fab
+          className={classes.button}
+          color="primary"
+          onClick={onRequestOpen}
+        >
           <Add />
         </Button>
       </div>

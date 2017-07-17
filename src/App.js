@@ -45,6 +45,7 @@ export default class App extends Component {
     user: null,
     likedTools: [],
     tools: [],
+    openForm: true,
   }
 
   componentWillMount() {
@@ -121,7 +122,7 @@ export default class App extends Component {
   }
 
   render() {
-    const { tools, user, likedTools } = this.state
+    const { tools, user, likedTools, openForm } = this.state
     return (
       <Router>
         <MuiThemeProvider theme={theme}>
@@ -129,24 +130,22 @@ export default class App extends Component {
             <Nav user={user} toggleSignIn={this.toggleSignIn} />
 
             <section className="container app-section">
-              <Route
-                exact
-                path="/"
-                component={() =>
-                  <DataTable
-                    tools={tools}
-                    likedTools={likedTools}
-                    handleLike={this.handleLike}
-                  />}
+              <DataTable
+                tools={tools}
+                likedTools={likedTools}
+                handleLike={this.handleLike}
               />
 
-              <Route
-                path="/new"
-                component={() => <Form addNewTool={this.addNewTool} />}
+              <Form
+                open={openForm}
+                onRequestClose={() => this.setState({ openForm: false })}
+                addNewTool={this.addNewTool}
               />
             </section>
 
-            <FloatingCreateButton />
+            <FloatingCreateButton
+              onRequestOpen={() => this.setState({ openForm: true })}
+            />
 
             <Footer />
           </div>
