@@ -11,6 +11,7 @@ import Dialog, {
 } from 'material-ui/Dialog'
 import TextField from 'material-ui/TextField'
 import Button from 'material-ui/Button'
+import IconButton from 'material-ui/IconButton'
 
 const styleSheet = createStyleSheet('Form', theme => ({
   container: {
@@ -20,6 +21,9 @@ const styleSheet = createStyleSheet('Form', theme => ({
   input: {
     marginRight: '16px',
     width: 200,
+  },
+  button: {
+    minWidth: 64,
   },
 }))
 
@@ -69,13 +73,13 @@ class Form extends Component {
 
   render() {
     // Destructure Props
-    const { classes, onRequestClose, ...other } = this.props
+    const { classes, onRequestClose, open } = this.props
 
     // Destructure State
     const { newTool } = this.state
 
     return (
-      <Dialog {...other}>
+      <Dialog open={open} onRequestClose={onRequestClose}>
         <DialogTitle>Add a new tool</DialogTitle>
         <DialogContent className={classes.container}>
           <TextField
@@ -106,7 +110,11 @@ class Form extends Component {
         </DialogContent>
         <DialogActions>
           <Button onClick={this.handleCancel}>Cancel</Button>
-          <Button onClick={this.handleSubmit} color="primary">
+          <Button
+            onClick={this.handleSubmit}
+            color="primary"
+            className={classes.button}
+          >
             Add
           </Button>
         </DialogActions>
