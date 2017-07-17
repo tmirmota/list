@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
 
 // Material UI
 import { withStyles, createStyleSheet } from 'material-ui/styles'

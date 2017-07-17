@@ -4,19 +4,31 @@ import update from 'immutability-helper'
 
 // Material UI
 import { withStyles, createStyleSheet } from 'material-ui/styles'
-import Dialog, { DialogTitle, DialogActions } from 'material-ui/Dialog'
-import Paper from 'material-ui/Paper'
+import Dialog, {
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+} from 'material-ui/Dialog'
 import TextField from 'material-ui/TextField'
 import Button from 'material-ui/Button'
-import Slide from 'material-ui/transitions/Slide'
 
-const styleSheet = createStyleSheet('Form', theme => ({}))
+const styleSheet = createStyleSheet('Form', theme => ({
+  container: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  input: {
+    marginRight: '16px',
+    width: 200,
+  },
+}))
 
 class Form extends Component {
   state = {
     newTool: {
       title: '',
       url: '',
+      description: '',
     },
   }
 
@@ -32,7 +44,9 @@ class Form extends Component {
   }
 
   handleInputChange = event => {
+    // Destructure Props
     const { newTool } = this.state
+
     const { name, value } = event.target
 
     // Only set state of input
@@ -55,27 +69,41 @@ class Form extends Component {
 
   render() {
     // Destructure Props
-    const { onRequestClose, ...other } = this.props
+    const { classes, onRequestClose, ...other } = this.props
 
     // Destructure State
     const { newTool } = this.state
 
     return (
-      <Dialog ignoreBackDropClick {...other}>
+      <Dialog {...other}>
         <DialogTitle>Add a new tool</DialogTitle>
-        <TextField
-          label="Name"
-          name="title"
-          value={newTool.title}
-          onChange={this.handleInputChange}
-        />
-        <br />
-        <TextField
-          label="URL"
-          name="url"
-          value={newTool.url}
-          onChange={this.handleInputChange}
-        />
+        <DialogContent className={classes.container}>
+          <TextField
+            label="Name"
+            name="title"
+            type="text"
+            className={classes.input}
+            value={newTool.title}
+            onChange={this.handleInputChange}
+          />
+          <TextField
+            label="URL"
+            name="url"
+            type="url"
+            className={classes.input}
+            value={newTool.url}
+            onChange={this.handleInputChange}
+          />
+          <TextField
+            label="Description"
+            name="description"
+            type="text"
+            value={newTool.description}
+            onChange={this.handleInputChange}
+            fullWidth
+            marginForm
+          />
+        </DialogContent>
         <DialogActions>
           <Button onClick={this.handleCancel}>Cancel</Button>
           <Button onClick={this.handleSubmit} color="primary">
