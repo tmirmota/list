@@ -13,20 +13,24 @@ class SignIn extends Component {
   handleFacebook = () => {
     const { onRequestClose, toggleSignIn } = this.props
 
+    // Close Dialog
     onRequestClose()
+
+    // Sign in with Facebook
     toggleSignIn()
   }
+
   render() {
     const { open, onRequestClose } = this.props
     return (
       <Dialog open={open} onRequestClose={onRequestClose}>
         <DialogTitle>Sign In to join the community</DialogTitle>
-        <DialogActions>
-          {/* Facebook login */}
-          <Button onClick={this.handleFacebook}>Login with Facebook</Button>
-        </DialogActions>
-        <Divider />
-        <DialogContent />
+        <DialogContent className="text-center">
+          <Button raised color="primary" onClick={this.handleFacebook}>
+            <i className="fa fa-facebook pr-2" />
+            Login with Facebook
+          </Button>
+        </DialogContent>
       </Dialog>
     )
   }

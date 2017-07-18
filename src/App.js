@@ -118,6 +118,13 @@ export default class App extends Component {
     // Collect the current user
     const { user } = this.state
 
+    // Trigger signup dialog if user tries to like while not signed in
+    const noUser = user === null
+    if (noUser) {
+      this.setState({ openSignIn: true })
+      return false
+    }
+
     // User's tool reference
     const userToolRef = firebase
       .database()
