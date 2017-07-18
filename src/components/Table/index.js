@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { primaryLight } from '../../utilities/colors'
 
 // Material UI
 import { withStyles, createStyleSheet } from 'material-ui/styles'
@@ -21,6 +22,7 @@ const styleSheet = createStyleSheet('DataTable', theme => ({
   },
   button: {
     margin: theme.spacing.unit,
+    flatPrimary: primaryLight,
   },
   votes: {
     textAlign: 'center',
@@ -78,7 +80,8 @@ class DataTable extends Component {
                   </TableCell>
                   <TableCell className={classes.votes}>
                     <Button
-                      fab
+                      raised
+                      dense
                       color={userUpvoted ? 'accent' : 'default'}
                       onClick={() => handleLike(tool)}
                       className={classes.button}

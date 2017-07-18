@@ -45,7 +45,7 @@ export default class App extends Component {
     user: null,
     likedTools: [],
     tools: [],
-    openForm: true,
+    openForm: false,
   }
 
   componentWillMount() {
