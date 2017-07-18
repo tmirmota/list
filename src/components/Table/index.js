@@ -22,7 +22,6 @@ const styleSheet = createStyleSheet('DataTable', theme => ({
   },
   button: {
     margin: theme.spacing.unit,
-    flatPrimary: primaryLight,
   },
   votes: {
     textAlign: 'center',

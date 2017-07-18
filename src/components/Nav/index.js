@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { primaryLight } from '../../utilities/colors'
 
 // Material UI
 import { withStyles, createStyleSheet } from 'material-ui/styles'
@@ -15,6 +16,14 @@ const styleSheet = createStyleSheet('Nav', theme => ({
   flex: {
     flex: 1,
     paddingLeft: 5,
+  },
+  button: {
+    margin: theme.spacing.unit,
+  },
+  flatPrimary: {
+    color: 'white',
+    border: '1px solid white',
+    borderRadius: '4px',
   },
 }))
 
@@ -36,9 +45,22 @@ class Nav extends Component {
 
             {/* Return login button if user is not signed-in */}
             {!isSignedIn &&
-              <Button color="contrast" onClick={toggleSignIn}>
-                Login
-              </Button>}
+              <div>
+                <Button
+                  color="contrast"
+                  onClick={toggleSignIn}
+                  className={classes.button}
+                >
+                  Login
+                </Button>
+                <Button
+                  color="contrast"
+                  onClick={toggleSignIn}
+                  className={classes.button && classes.flatPrimary}
+                >
+                  Sign Up
+                </Button>
+              </div>}
 
             {isSignedIn && <UserChip user={user} toggleSignIn={toggleSignIn} />}
           </Toolbar>

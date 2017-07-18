@@ -6,8 +6,12 @@ import _ from 'lodash'
 import './App.css'
 
 // Material UI Components
-import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles'
-import createPalette from 'material-ui/styles/palette'
+import {
+  MuiThemeProvider,
+  createMuiTheme,
+  createPalette,
+  createTypography,
+} from 'material-ui/styles'
 import blue from 'material-ui/colors/blue'
 
 // Components
@@ -33,12 +37,29 @@ firebase.initializeApp(config)
 // Firebase database reference
 const dbRef = firebase.database().ref()
 
+let theme = createMuiTheme()
+
+const typography = createTypography(theme.palette, {
+  // System font
+  fontFamily:
+    '-apple-system,system-ui,BlinkMacSystemFont,' +
+    '"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif',
+})
+
 // Customize Theme
-const theme = createMuiTheme({
+theme = {
+  ...theme,
   palette: createPalette({
     primary: blue,
   }),
-})
+  typography: {
+    ...typography,
+    button: {
+      ...typography.button,
+      fontWeight: typography.fontWeightSmall,
+    },
+  },
+}
 
 export default class App extends Component {
   state = {
