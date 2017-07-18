@@ -21,7 +21,8 @@ const styleSheet = createStyleSheet('DataTable', theme => ({
     flexGrow: 1,
   },
   button: {
-    margin: theme.spacing.unit,
+    margin: '16px',
+    padding: '5px 4px',
   },
   votes: {
     textAlign: 'center',
@@ -79,9 +80,9 @@ class DataTable extends Component {
                   </TableCell>
                   <TableCell className={classes.votes}>
                     <Button
-                      raised
+                      raised={userUpvoted}
                       dense
-                      color={userUpvoted ? 'accent' : 'default'}
+                      color={userUpvoted ? 'accent' : 'inherit'}
                       onClick={() => handleLike(tool)}
                       className={classes.button}
                     >

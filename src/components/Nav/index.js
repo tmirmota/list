@@ -30,7 +30,7 @@ const styleSheet = createStyleSheet('Nav', theme => ({
 class Nav extends Component {
   render() {
     // Destructure Props
-    const { user, toggleSignIn, classes } = this.props
+    const { user, toggleSignIn, openSignIn, classes } = this.props
 
     // Check if user is signed-in
     const isSignedIn = user !== null
@@ -48,14 +48,14 @@ class Nav extends Component {
               <div>
                 <Button
                   color="contrast"
-                  onClick={toggleSignIn}
+                  onClick={openSignIn}
                   className={classes.button}
                 >
                   Login
                 </Button>
                 <Button
                   color="contrast"
-                  onClick={toggleSignIn}
+                  onClick={openSignIn}
                   className={classes.button && classes.flatPrimary}
                 >
                   Sign Up

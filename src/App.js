@@ -20,6 +20,7 @@ import DataTable from './components/Table'
 import Form from './components/Form'
 import Footer from './components/Footer'
 import FloatingCreateButton from './components/FloatingCreateButton'
+import SignIn from './components/SignIn'
 
 // Firebase configuration
 const config = {
@@ -67,6 +68,7 @@ export default class App extends Component {
     likedTools: [],
     tools: [],
     openForm: false,
+    openSignIn: false,
   }
 
   componentWillMount() {
@@ -143,12 +145,21 @@ export default class App extends Component {
   }
 
   render() {
-    const { tools, user, likedTools, openForm } = this.state
+    const { tools, user, likedTools, openForm, openSignIn } = this.state
     return (
       <Router>
         <MuiThemeProvider theme={theme}>
           <div>
-            <Nav user={user} toggleSignIn={this.toggleSignIn} />
+            <Nav
+              user={user}
+              openSignIn={() => this.setState({ openSignIn: true })}
+              toggleSignIn={this.toggleSignIn}
+            />
+            <SignIn
+              open={openSignIn}
+              onRequestClose={() => this.setState({ openSignIn: false })}
+              toggleSignIn={this.toggleSignIn}
+            />
 
             <section className="container app-section">
               <DataTable
