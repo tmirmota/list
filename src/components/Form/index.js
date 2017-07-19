@@ -11,7 +11,6 @@ import Dialog, {
 } from 'material-ui/Dialog'
 import TextField from 'material-ui/TextField'
 import Button from 'material-ui/Button'
-import IconButton from 'material-ui/IconButton'
 
 const styleSheet = createStyleSheet('Form', theme => ({
   container: {

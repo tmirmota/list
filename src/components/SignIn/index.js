@@ -3,13 +3,8 @@ import PropTypes from 'prop-types'
 
 // Material UI
 import { withStyles, createStyleSheet } from 'material-ui/styles'
-import Dialog, {
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-} from 'material-ui/Dialog'
+import Dialog, { DialogTitle, DialogContent } from 'material-ui/Dialog'
 import Button from 'material-ui/Button'
-import Divider from 'material-ui/Divider'
 
 const styleSheet = createStyleSheet('SignIn', {
   button: {

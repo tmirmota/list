@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router } from 'react-router-dom'
 import * as firebase from 'firebase'
 import _ from 'lodash'
 import './App.css'
@@ -151,48 +151,6 @@ export default class App extends Component {
     })
   }
 
-  render() {
-    const { tools, user, likedTools, openForm, openSignIn } = this.state
-    return (
-      <Router>
-        <MuiThemeProvider theme={theme}>
-          <div>
-            <Nav
-              user={user}
-              openSignIn={() => this.setState({ openSignIn: true })}
-              toggleSignIn={this.toggleSignIn}
-            />
-            <SignIn
-              open={openSignIn}
-              onRequestClose={() => this.setState({ openSignIn: false })}
-              toggleSignIn={this.toggleSignIn}
-            />
-
-            <section className="container app-section">
-              <DataTable
-                tools={tools}
-                likedTools={likedTools}
-                handleLike={this.handleLike}
-              />
-
-              <Form
-                open={openForm}
-                onRequestClose={() => this.setState({ openForm: false })}
-                addNewTool={this.addNewTool}
-              />
-            </section>
-
-            <FloatingCreateButton
-              onRequestOpen={() => this.setState({ openForm: true })}
-            />
-
-            <Footer />
-          </div>
-        </MuiThemeProvider>
-      </Router>
-    )
-  }
-
   toggleSignIn = () => {
     if (!firebase.auth().currentUser) {
       // [START createprovider]
@@ -257,4 +215,54 @@ export default class App extends Component {
       // [END signout]
     }
   }
+
+  render() {
+    const { tools, user, likedTools, openForm, openSignIn } = this.state
+    return (
+      <Router>
+        <MuiThemeProvider theme={theme}>
+          <div>
+            <Nav
+              user={user}
+              openSignIn={() => this.setState({ openSignIn: true })}
+              toggleSignIn={this.toggleSignIn}
+            />
+            <SignIn
+              open={openSignIn}
+              onRequestClose={() => this.setState({ openSignIn: false })}
+              toggleSignIn={this.toggleSignIn}
+            />
+
+            <section className="container app-section">
+              <DataTable
+                tools={tools}
+                likedTools={likedTools}
+                handleLike={this.handleLike}
+              />
+
+              <Form
+                open={openForm}
+                onRequestClose={() => this.setState({ openForm: false })}
+                addNewTool={this.addNewTool}
+              />
+            </section>
+
+            <FloatingCreateButton
+              onRequestOpen={() => this.setState({ openForm: true })}
+            />
+
+            <Footer />
+          </div>
+        </MuiThemeProvider>
+      </Router>
+    )
+  }
+}
+
+App.propTypes = {
+  user: PropTypes.string,
+  likedTools: PropTypes.array,
+  tools: PropTypes.array,
+  openForm: PropTypes.bool,
+  openSignIn: PropTypes.bool,
 }

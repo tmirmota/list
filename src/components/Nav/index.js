@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { primaryLight } from '../../utilities/colors'
 
 // Material UI
 import { withStyles, createStyleSheet } from 'material-ui/styles'
