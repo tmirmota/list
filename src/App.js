@@ -211,7 +211,7 @@ export default class App extends Component {
       // Signout from Firebase
       firebase.auth().signOut()
       // Signout user from state
-      this.setState({ user: null })
+      this.setState({ user: null, likedTools: [] })
       // [END signout]
     }
   }
