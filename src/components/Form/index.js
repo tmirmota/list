@@ -25,8 +25,7 @@ const styleSheet = createStyleSheet('Form', theme => ({
   button: {
     minWidth: 80,
   },
-  formControl: {
-  },
+  formControl: {},
 }))
 
 class Form extends Component {
@@ -36,6 +35,19 @@ class Form extends Component {
       url: '',
       description: '',
     },
+  }
+
+  componentDidUpdate({ open }) {
+    // Reference to the first field in the form
+    const titleRef = window.document.getElementById('title')
+
+    // Form is rendered for the first time
+    const isOpened = titleRef !== null && !open
+
+    // Focus the user on the first field in the form
+    if (isOpened) {
+      titleRef.focus()
+    }
   }
 
   handleSubmit = () => {
@@ -84,17 +96,16 @@ class Form extends Component {
       <Dialog open={open} onRequestClose={onRequestClose}>
         <DialogTitle>Add a new tool</DialogTitle>
         <DialogContent className={classes.container}>
-
           {/* Name Input */}
           <FormControl className={classes.formControl}>
             <InputLabel htmlFor="title">Name</InputLabel>
             <Input
               id="title"
+              name="title"
               type="text"
               className={classes.input}
               value={newTool.title}
               onChange={this.handleInputChange}
-              // error
             />
           </FormControl>
 
@@ -103,28 +114,29 @@ class Form extends Component {
             <InputLabel htmlFor="url">URL</InputLabel>
             <Input
               id="url"
+              name="url"
               type="url"
               className={classes.input}
               value={newTool.url}
               onChange={this.handleInputChange}
-              // error
             />
           </FormControl>
 
           {/* Description Input */}
-          <FormControl className={classes.formControl}>
+          <FormControl
+            className={classes.formControl}
+            fullWidth
+            margin="normal"
+          >
             <InputLabel htmlFor="description">Description</InputLabel>
             <Input
               id="description"
+              name="description"
               type="text"
               value={newTool.description}
               onChange={this.handleInputChange}
-              fullWidth
-              marginForm
-              // error
             />
           </FormControl>
-
         </DialogContent>
         <DialogActions>
           <Button onClick={this.handleCancel}>Cancel</Button>
