@@ -9,7 +9,8 @@ import Dialog, {
   DialogContent,
   DialogActions,
 } from 'material-ui/Dialog'
-import TextField from 'material-ui/TextField'
+import Input, { InputLabel } from 'material-ui/Input'
+import { FormControl, FormHelperText } from 'material-ui/Form'
 import Button from 'material-ui/Button'
 
 const styleSheet = createStyleSheet('Form', theme => ({
@@ -22,7 +23,9 @@ const styleSheet = createStyleSheet('Form', theme => ({
     width: 200,
   },
   button: {
-    minWidth: 64,
+    minWidth: 80,
+  },
+  formControl: {
   },
 }))
 
@@ -81,31 +84,47 @@ class Form extends Component {
       <Dialog open={open} onRequestClose={onRequestClose}>
         <DialogTitle>Add a new tool</DialogTitle>
         <DialogContent className={classes.container}>
-          <TextField
-            label="Name"
-            name="title"
-            type="text"
-            className={classes.input}
-            value={newTool.title}
-            onChange={this.handleInputChange}
-          />
-          <TextField
-            label="URL"
-            name="url"
-            type="url"
-            className={classes.input}
-            value={newTool.url}
-            onChange={this.handleInputChange}
-          />
-          <TextField
-            label="Description"
-            name="description"
-            type="text"
-            value={newTool.description}
-            onChange={this.handleInputChange}
-            fullWidth
-            marginForm
-          />
+
+          {/* Name Input */}
+          <FormControl className={classes.formControl}>
+            <InputLabel htmlFor="title">Name</InputLabel>
+            <Input
+              id="title"
+              type="text"
+              className={classes.input}
+              value={newTool.title}
+              onChange={this.handleInputChange}
+              // error
+            />
+          </FormControl>
+
+          {/* URL Input */}
+          <FormControl className={classes.formControl}>
+            <InputLabel htmlFor="url">URL</InputLabel>
+            <Input
+              id="url"
+              type="url"
+              className={classes.input}
+              value={newTool.url}
+              onChange={this.handleInputChange}
+              // error
+            />
+          </FormControl>
+
+          {/* Description Input */}
+          <FormControl className={classes.formControl}>
+            <InputLabel htmlFor="description">Description</InputLabel>
+            <Input
+              id="description"
+              type="text"
+              value={newTool.description}
+              onChange={this.handleInputChange}
+              fullWidth
+              marginForm
+              // error
+            />
+          </FormControl>
+
         </DialogContent>
         <DialogActions>
           <Button onClick={this.handleCancel}>Cancel</Button>
