@@ -22,6 +22,9 @@ const styleSheet = createStyleSheet('Form', theme => ({
     marginRight: '16px',
     width: 200,
   },
+  inputStyle: {
+    color: 'green',
+  },
   button: {
     minWidth: 80,
   },
@@ -62,7 +65,7 @@ class Form extends Component {
   }
 
   handleInputChange = event => {
-    // Destructure Props
+    // Destructure State
     const { newTool } = this.state
 
     const { name, value } = event.target
@@ -81,8 +84,13 @@ class Form extends Component {
     const resetTool = {
       title: '',
       url: '',
+      description: '',
     }
     this.setState({ newTool: resetTool })
+  }
+
+  handleDirty = () => {
+    console.log('dirtyyyyy')
   }
 
   render() {
@@ -106,7 +114,10 @@ class Form extends Component {
               className={classes.input}
               value={newTool.title}
               onChange={this.handleInputChange}
+              // TODO: Once update comes I need to update this function
+              // onDirty={this.handleDirty}
             />
+            <FormHelperText>Required</FormHelperText>
           </FormControl>
 
           {/* URL Input */}
@@ -116,10 +127,11 @@ class Form extends Component {
               id="url"
               name="url"
               type="url"
-              className={classes.input}
+              className={classes.input && classes.inputStyle}
               value={newTool.url}
               onChange={this.handleInputChange}
             />
+            <FormHelperText>Required</FormHelperText>
           </FormControl>
 
           {/* Description Input */}
