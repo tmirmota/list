@@ -55,10 +55,18 @@ class DataTable extends Component {
           </TableHead>
           <TableBody>
             {tools.map((tool, index) => {
-              // Tools the user has touched
-              const userLikes = likedTools[tool.key]
-              // Has the user upvoted this particular tool
-              const userUpvoted = userLikes ? userLikes.like : false
+              // Assume user has not liked the tool
+              let userUpvoted = false
+
+              // User has Liked a tool before
+              const hasLikes = likedTools !== null
+              // User has a liked status on this tool
+              const hasLiked = hasLikes ? likedTools[tool.key] !== undefined : false
+              if (hasLiked) {
+                // Has the user upvoted this particular tool
+                userUpvoted = likedTools[tool.key].like
+              }
+
               // Rank of current tool
               const toolRank = index + 1
 

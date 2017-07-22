@@ -22,9 +22,7 @@ const styleSheet = createStyleSheet('Form', theme => ({
     marginRight: '16px',
     width: 200,
   },
-  inputStyle: {
-    color: 'green',
-  },
+  inputStyle: {},
   button: {
     minWidth: 80,
   },
@@ -61,7 +59,7 @@ class Form extends Component {
     const { newTool } = this.state
 
     addNewTool(newTool)
-    onRequestClose()
+    this.handleCancel()
   }
 
   handleInputChange = event => {
@@ -89,9 +87,10 @@ class Form extends Component {
     this.setState({ newTool: resetTool })
   }
 
-  handleDirty = () => {
-    console.log('dirtyyyyy')
-  }
+  // OnDirty callback coming soon
+  // handleDirty = () => {
+  //   console.log('dirtyyyyy')
+  // }
 
   render() {
     // Destructure Props

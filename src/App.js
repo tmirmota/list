@@ -65,7 +65,7 @@ theme = {
 export default class App extends Component {
   state = {
     user: null,
-    likedTools: [],
+    likedTools: null,
     tools: [],
     openForm: false,
     openSignIn: false,
@@ -77,9 +77,8 @@ export default class App extends Component {
       if (user) {
         dbRef.child(`accounts/${user.uid}/tools`).on('value', snap => {
           const likedTools = snap.toJSON()
-          this.setState({ likedTools })
+          this.setState({ likedTools, user })
         })
-        this.setState({ user })
       }
     })
 
@@ -131,24 +130,38 @@ export default class App extends Component {
       .database()
       .ref(`accounts/${user.uid}/tools/${key}`)
 
+    // Subscribe to tool db
     userToolRef.once('value', snap => {
-      // User like status
-      const userLikeRef = snap.val().like
 
-      // Toggle user like status
-      userToolRef.update({ like: !userLikeRef })
+      let newLikesCount = likes
 
-      // Increment or decrement like count
-      const changeLikes = userLikeRef ? -1 : +1
+      // If new, create a tool like for the user
+      const isNew = snap.toJSON() === null
+      if (isNew) {
+        userToolRef.update({ like: true })
 
-      // New like count for tool
-      const newLikesCount = likes + changeLikes
+        newLikesCount = likes + 1
+      } else {
+        // User like status
+        const { like } = snap.val()
+
+        // Toggle user like status
+        userToolRef.update({ like: !like })
+
+        // Increment or decrement like count
+        const changeLikes = like ? -1 : +1
+
+        // New like count for tool
+        newLikesCount = likes + changeLikes
+      }
 
       // Tool like count ref
       const toolLikeRef = firebase.database().ref(`tools/${key}`)
 
       // Update like count
       toolLikeRef.update({ likes: newLikesCount })
+
+      return true
     })
   }
 
