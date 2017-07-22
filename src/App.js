@@ -105,6 +105,7 @@ export default class App extends Component {
       key: newToolKey,
       title: newTool.title,
       url: newTool.url,
+      description: newTool.description,
       likes: 0,
     }
 
