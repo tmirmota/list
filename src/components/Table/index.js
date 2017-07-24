@@ -82,12 +82,12 @@ class DataTable extends Component {
                   </TableCell>
                   <TableCell>
                     <Typography type="body1" color="inherit">
-                      This is a caption
+                      {tool.description}
                     </Typography>
                   </TableCell>
                   <TableCell className={classes.votes}>
                     <Button
-                      raised={userUpvoted}
+                      raised
                       dense
                       color={userUpvoted ? 'accent' : 'inherit'}
                       onClick={() => handleLike(tool)}
