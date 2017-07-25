@@ -13,10 +13,9 @@ import FavoriteIcon from 'material-ui-icons/Favorite'
 const styles = {
   footer: {
     background: '#6ec6ff',
+    bottom: 0,
     padding: '20px',
     width: '100%',
-    position: 'absolute',
-    bottom: 0,
   },
   heading: {
     color: '#000',
